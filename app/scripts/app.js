@@ -1,5 +1,3 @@
-angular.module('blocJams',['ui.router']);
-
 (function() {
     function config($stateProvider, $locationProvider) {
       $locationProvider
@@ -23,7 +21,6 @@ angular.module('blocJams',['ui.router']);
       });
     }
 
-angular.module('blocJams', ['ui.router']);
     angular
         .module('blocJams', ['ui.router'])
         .config(config);
