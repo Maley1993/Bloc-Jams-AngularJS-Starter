@@ -1,5 +1,5 @@
 (function() {
-  function SongPlayer(fixtures) {
+  function SongPlayer(Fixtures) {
     var SongPlayer = {};
 
     /**
@@ -15,11 +15,21 @@
     var currentBuzzObject = null;
 
     /**
+    * @function stopSong
+    * @desc stops playing currentBuzzObject and sets value of playing to null
+    * @param {Object} song
+    */
+
+    var stopSong = function(song) {
+      currentBuzzObject.stop();
+      song.playing = null;
+    };
+
+    /**
     * @function playSong
     * @desc plays currentBuzzObject and sets value of playing to true
     * @param {Object} song
     */
-
     var playSong = function(song) {
       currentBuzzObject.play();
       song.playing = true;
@@ -77,7 +87,9 @@
              playSong(song);
          }
        }
+       console.log(Object.getOwnPropertyNames(SongPlayer).sort());
     };
+
 
     /**
     * @function pause
@@ -94,17 +106,40 @@
 
     /**
     * @function previous
-    * @desc
+    * @desc stops play of current song and plays previous song
     */
     SongPlayer.previous = function() {
       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      var song = currentAlbum.songs[currentSongIndex];
+
       currentSongIndex--;
 
       if (currentSongIndex < 0) {
-         currentBuzzObject.stop();
-         SongPlayer.currentSong.playing = null;
+        stopSong(song);
+        // currentBuzzObject.stop();
+        // SongPlayer.currentSong.playing = null;
      } else {
-         var song = currentAlbum.songs[currentSongIndex];
+        //  var song = currentAlbum.songs[currentSongIndex];
+         setSong(song);
+         playSong(song);
+     }
+    };
+
+    /**
+    * @function next
+    * @desc
+    */
+    SongPlayer.next = function() {
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      var song = currentAlbum.songs[currentSongIndex];
+      currentSongIndex++;
+
+      if (currentSongIndex === currentAlbum.songs.length ) {
+        stopSong(song);
+        // currentBuzzObject.stop();
+        // SongPlayer.currentSong.playing = null;
+     } else {
+        //  var song = currentAlbum.songs[currentSongIndex];
          setSong(song);
          playSong(song);
      }
