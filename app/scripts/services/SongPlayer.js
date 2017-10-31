@@ -54,7 +54,7 @@
 
       currentBuzzObject.bind('timeupdate', function() {
          $rootScope.$apply(function() {
-             SongPlayer.currentTime = currentBuzzObject.getTime();
+             SongPlayer.currentTime = parseInt(currentBuzzObject.getTime());
          });
       });
 
@@ -69,6 +69,12 @@
     var getSongIndex = function(song) {
       return currentAlbum.songs.indexOf(song);
     };
+
+    /**
+    * @desc object that holds current volume
+    * @type {Object}
+    */
+    SongPlayer.volume = 70;
 
     /**
     * @desc object that holds current song
@@ -100,7 +106,6 @@
              playSong(song);
          }
        }
-       console.log(Object.getOwnPropertyNames(SongPlayer).sort());
     };
 
 
@@ -123,9 +128,11 @@
     */
     SongPlayer.previous = function() {
       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
-      var song = currentAlbum.songs[currentSongIndex];
 
       currentSongIndex--;
+      if (currentSongIndex < 0) { currentSongIndex = currentAlbum.songs.length - 1 }
+
+      var song = currentAlbum.songs[currentSongIndex];
 
       if (currentSongIndex < 0) {
         stopSong(song);
@@ -144,10 +151,11 @@
     */
     SongPlayer.next = function() {
       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
-      var song = currentAlbum.songs[currentSongIndex];
       currentSongIndex++;
+      
+      var song = currentAlbum.songs[currentSongIndex];
 
-      if (currentSongIndex === currentAlbum.songs.length ) {
+      if (currentSongIndex  === currentAlbum.songs.length ) {
         stopSong(song);
         // currentBuzzObject.stop();
         // SongPlayer.currentSong.playing = null;
@@ -156,6 +164,7 @@
          setSong(song);
          playSong(song);
      }
+     console.log(currentSongIndex);
     };
 
     /**
@@ -166,6 +175,17 @@
     SongPlayer.setCurrentTime = function(time) {
       if (currentBuzzObject) {
         currentBuzzObject.setTime(time);
+      }
+    };
+
+    /**
+    * @function setVolume
+    * @desc Set current volume of currently playing song
+    * @param {Number} time
+    */
+    SongPlayer.setVolume = function(value) {
+      if(currentBuzzObject) {
+        currentBuzzObject.setVolume(value);
       }
     };
 
