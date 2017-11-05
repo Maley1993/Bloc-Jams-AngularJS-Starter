@@ -71,6 +71,12 @@
     };
 
     /**
+    * @desc boolean showing if the mute button has been clicked or not
+    * @type {Object}
+    */
+    SongPlayer.muteButtonClicked = false;
+
+    /**
     * @desc object that holds current volume
     * @type {Object}
     */
@@ -107,7 +113,6 @@
          }
        }
     };
-
 
     /**
     * @function pause
@@ -152,7 +157,7 @@
     SongPlayer.next = function() {
       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
       currentSongIndex++;
-      
+
       var song = currentAlbum.songs[currentSongIndex];
 
       if (currentSongIndex  === currentAlbum.songs.length ) {
@@ -187,6 +192,25 @@
       if(currentBuzzObject) {
         currentBuzzObject.setVolume(value);
       }
+      SongPlayer.volume = value;
+    };
+
+    /**
+    * @function muteVolume
+    * @desc mutes current sound files volume
+    */
+    SongPlayer.muteVolume = function() {
+      SongPlayer.muteButtonClicked = true;
+      SongPlayer.setVolume(0);
+    };
+
+    /**
+    * @function muteVolume
+    * @desc mutes current sound files volume
+    */
+    SongPlayer.unmuteVolume = function() {
+      SongPlayer.muteButtonClicked = false;
+      SongPlayer.setVolume(70);
     };
 
     return SongPlayer;
