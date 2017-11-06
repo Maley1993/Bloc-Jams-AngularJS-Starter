@@ -55,8 +55,12 @@
       currentBuzzObject.bind('timeupdate', function() {
          $rootScope.$apply(function() {
              SongPlayer.currentTime = parseInt(currentBuzzObject.getTime());
+             if(SongPlayer.currentTime == parseInt(SongPlayer.currentSong.duration)) {
+               SongPlayer.next();
+             }
          });
       });
+
 
       SongPlayer.currentSong = song;
     };
@@ -112,6 +116,8 @@
              playSong(song);
          }
        }
+       console.log(Object.getOwnPropertyNames(SongPlayer));
+       console.log(SongPlayer.currentTime)
     };
 
     /**
